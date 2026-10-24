@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "src/projet.css"
+        ],
+        "createdAt": "2026-10-24T19:58:44.419Z",
+        "reason": "Silver gradient display type is the incumbent portfolio identity (index.html h1/h2 use var(--silver)); extension inherits it"
+      }
+    ]
+  }
+}

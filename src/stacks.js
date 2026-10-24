@@ -2,7 +2,7 @@ import {reveal} from './reveal.js'
 import {still} from './runtime.js'
 
 const icons=import.meta.glob('./assets/stacks/*.svg',{eager:true,query:'?url',import:'default'})
-const url=k=>icons[`./assets/stacks/${k}.svg`]
+export const url=k=>icons[`./assets/stacks/${k}.svg`]
 
 // [fichier, nom affiché, options : inv = logo monochrome sombre inversé en blanc sur fond sombre, wide = logo large]
 const data=[
@@ -12,6 +12,8 @@ const data=[
   {t:'Données & services',s:[['supabase','Supabase'],['postgresql','PostgreSQL'],['discord','Discord OAuth'],['cloudflare','Cloudflare Turnstile']]},
   {t:'Infra & outils',s:[['vercel','Vercel','inv'],['render','Render','inv'],['githubactions','GitHub Actions'],['githubpages','GitHub Pages','inv wide'],['pm2','PM2'],['npm','npm']]}
 ]
+
+export const stackInfo=k=>data.flatMap(d=>d.s).find(s=>s[0]===k)
 
 export function initStacks(grid){
   data.forEach((d,i)=>{
