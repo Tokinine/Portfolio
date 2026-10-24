@@ -38,13 +38,7 @@ function render(p,i){
  <figure class="ph-stage">
   <div class="ph-frame" style="--ar:${w}/${h}"><div class="in"><div class="ph-shot">
    <img src="${src}" width="${w}" height="${h}" alt="Capture de ${p.name}" fetchpriority="high" style="view-transition-name:shot-${p.slug}">
-   ${p.pins.map(([x,y],k)=>`<span class="pin" style="left:${x}%;top:${y}%;--d:${k}" aria-hidden="true">${pad(k+1)}</span>`).join('')}
-   <span class="ph-tag" aria-hidden="true"></span>
   </div></div></div>
-  <figcaption class="ph-legend">
-   <ol>${p.pins.map(([,,t],k)=>`<li><button type="button" data-k="${k}"><b>${pad(k+1)}</b>${t}</button></li>`).join('')}</ol>
-   <p class="ph-detail" id="detail"></p>
-  </figcaption>
  </figure>
 </div>
 <nav class="wrap ph-steps" aria-label="Autres projets"><a href="${projectUrl(prev)}">← ${prev.name}</a><span>${pad(i+1)} / ${pad(n)}</span><a href="${projectUrl(next)}">${next.name} →</a></nav>
@@ -79,78 +73,31 @@ ${stacks.length?`<section class="pj-sec"><div class="wrap g12">
 
   const frame=document.querySelector('.ph-frame')
   chromeRing(frame,i,7,18)
-  initLens(p)
+  initTilt()
   // le contenu est rendu en JS : l'ancre de l'URL n'existait pas au chargement
   if(location.hash)document.querySelector(location.hash)?.scrollIntoView()
 }
 
-function initLens(p){
-  const shot=document.querySelector('.ph-shot'),tag=shot.querySelector('.ph-tag')
-  const pins=[...shot.querySelectorAll('.pin')],buttons=[...document.querySelectorAll('.ph-legend button')]
-  const detail=document.getElementById('detail'),stage=document.querySelector('.ph-stage'),frame=stage.querySelector('.ph-frame')
-  let cur={x:p.pins[0][0]/100,y:p.pins[0][1]/100},to={...cur},raf=0,active=-1,hover=false,visible=true,timer=0
-
-
-  const draw=()=>{
-    const W=shot.offsetWidth,H=shot.offsetHeight,D=40
-    const lx=Math.min(Math.max(cur.x*W,D/2),W-D/2),ly=Math.min(Math.max(cur.y*H,D/2),H-D/2)
-    // étiquette sous la loupe, sinon au-dessus, sinon à côté : jamais hors capture ni sur un autre repère
-    const T=tag.offsetWidth,th=tag.offsetHeight,tx=Math.min(Math.max(lx-T/2,8),W-T-8)
-    const below=ly+D/2,up=ly-D/2-th-24,covers=(x,y)=>p.pins.some(([px,py],k)=>k!==active&&px/100*W>x-20&&px/100*W<x+T+20&&py/100*H>y-8&&py/100*H<y+th+32)
-    const spots=[[tx,below],[tx,up],[Math.min(lx+D/2+12,W-T-8),ly-th/2],[Math.max(lx-D/2-T-12,8),ly-th/2]].filter(([,y])=>y>=8&&y+th+20<=H)
-    const [sx,sy]=spots.find(([x,y])=>!covers(x,y))||spots[0]||[tx,Math.min(below,H-th-20)]
-    tag.style.translate=`${sx}px ${sy}px`
-  }
+function initTilt(){
+  const frame=document.querySelector('.ph-frame'),shot=frame.querySelector('.ph-shot')
+  if(still||!matchMedia('(hover:hover)').matches)return
+  // inclinaison lissée image par image plutôt qu'une transition CSS relancée à chaque mouvement
+  const rest={x:3,y:-8}
+  let cur={...rest},to={...rest},raf=0
   const tick=()=>{
-    raf=0
-    const k=still?1:.14
-    cur.x+=(to.x-cur.x)*k
-    cur.y+=(to.y-cur.y)*k
-    draw()
-    if(Math.abs(to.x-cur.x)+Math.abs(to.y-cur.y)>.0005)raf=requestAnimationFrame(tick)
+    cur.x+=(to.x-cur.x)*.08
+    cur.y+=(to.y-cur.y)*.08
+    frame.style.transform=`rotateY(${cur.y}deg) rotateX(${cur.x}deg)`
+    raf=Math.abs(to.x-cur.x)+Math.abs(to.y-cur.y)>.01?requestAnimationFrame(tick):0
   }
-  const go=(x,y)=>{to={x,y};if(!raf)raf=requestAnimationFrame(tick)}
-  const select=k=>{
-    if(k===active)return
-    active=k
-    pins.forEach((el,j)=>el.classList.toggle('on',j===k))
-    buttons.forEach((el,j)=>el.setAttribute('aria-pressed',j===k))
-    detail.textContent=p.pins[k][3]
-    tag.textContent=`${String(k+1).padStart(2,'0')} · ${p.pins[k][2]}`
-    go(p.pins[k][0]/100,p.pins[k][1]/100)
-  }
-  const tour=()=>{
-    clearTimeout(timer)
-    if(still||hover||!visible)return
-    timer=setTimeout(()=>{select((active+1)%pins.length);tour()},3600)
-  }
-
-  shot.addEventListener('pointermove',e=>{
-    const r=shot.getBoundingClientRect()
-    const x=Math.min(1,Math.max(0,(e.clientX-r.left)/r.width)),y=Math.min(1,Math.max(0,(e.clientY-r.top)/r.height))
-    go(x,y)
-    // repère le plus proche du pointeur
-    let best=0,bd=Infinity
-    p.pins.forEach(([px,py],j)=>{const d=(px/100-x)**2+(py/100-y)**2;if(d<bd){bd=d;best=j}})
-    tag.classList.toggle('off',bd>=.012)
-    if(bd<.012)select(best)
-  })
-  shot.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'){hover=true;frame.classList.add('live');clearTimeout(timer)}})
-  shot.addEventListener('pointerleave',()=>{hover=false;tag.classList.remove('off');frame.classList.remove('live');frame.style.removeProperty('--ry');frame.style.removeProperty('--rx');const k=active;active=-1;select(k);tour()})
-  shot.addEventListener('pointermove',e=>{
-    if(e.pointerType!=='mouse'||still)return
-    const r=shot.getBoundingClientRect()
-    frame.style.setProperty('--ry',((e.clientX-r.left)/r.width-.5)*6+'deg')
-    frame.style.setProperty('--rx',(.5-(e.clientY-r.top)/r.height)*4+'deg')
-  })
-  buttons.forEach(b=>{
-    b.addEventListener('click',()=>{select(+b.dataset.k);tour()})
-    b.addEventListener('pointerenter',()=>select(+b.dataset.k))
-  })
-  new IntersectionObserver(([e])=>{visible=e.isIntersecting;visible?tour():clearTimeout(timer)}).observe(shot)
-  new ResizeObserver(draw).observe(shot)
-  select(0)
-  tour()
+  const go=t=>{to=t;if(!raf)raf=requestAnimationFrame(tick)}
+  frame.addEventListener('animationend',()=>{
+    shot.addEventListener('pointermove',e=>{
+      const r=shot.getBoundingClientRect()
+      go({x:(.5-(e.clientY-r.top)/r.height)*5,y:((e.clientX-r.left)/r.width-.5)*7})
+    })
+    shot.addEventListener('pointerleave',()=>go(rest))
+  },{once:true})
 }
 
 initNav()

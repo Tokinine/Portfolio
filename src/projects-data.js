@@ -8,19 +8,13 @@ import jkplmHd from './assets/projects/hd/jkplm.webp'
 import localshieldHd from './assets/projects/hd/localshield.webp'
 import localdownloadHd from './assets/projects/hd/localdownload.webp'
 
-// demo : capture faite avec des données de démonstration ; hd : capture plein format [src, largeur, hauteur] ; pins : repères en % de la capture [x, y, libellé, détail]
+// demo : capture faite avec des données de démonstration ; hd : capture plein format [src, largeur, hauteur]
 export const projects=[
   {
     slug:'tokibot',name:'TokiBot',line:'Bots temps réel pour JKLM.fun',img:tokibot,
     type:'Écosystème de bots',hd:[tokibotHd,2400,1343],
     lede:'Jouer, modérer et administrer des rooms JKLM.fun depuis un seul dépôt, lancé par une seule commande.',
     role:'Conception et développement',status:'Dépôt privé',
-    pins:[
-      [6,40,'Panel d’administration','Bots, joueurs, statistiques, classements, salles, commandes, modération et logs, pilotés depuis une interface web.'],
-      [31,18,'Rooms principales','Création et recréation des rooms de référence en un clic.'],
-      [31,58,'Déploiement de bots','Un code de room, un nombre de bots, une langue : les bots rejoignent la partie.'],
-      [66,58,'Création en masse','Plusieurs rooms BombParty ou PopSauce créées d’un coup, par langue.']
-    ],
     overview:[
       'TokiBot réunit tout ce qu’il faut pour jouer, modérer et administrer des rooms JKLM.fun : un bot BombParty, un bot PopSauce, un serveur de dictionnaires, un panel d’administration et un bot Discord.',
       'Les bots parlent le protocole WebSocket du jeu. Le code commun (commandes, traductions, notifications, chemins, lecture de l’environnement) vit dans un dossier partagé, et une seule commande lance l’ensemble, sous PM2 en production.'
@@ -42,12 +36,6 @@ export const projects=[
     type:'Jeu multijoueur temps réel',hd:[jkplmHd,2400,1500],
     lede:'Une syllabe est imposée : trouve un mot valide avant la fin du timer, ou perds une vie. Jusqu’à huit joueurs, en quatre langues.',
     role:'Conception et développement',status:'En ligne',link:['jkplm.vercel.app','https://jkplm.vercel.app'],
-    pins:[
-      [40,19,'BombParty','Le mode phare : une syllabe, dix secondes, un mot jamais joué.'],
-      [17,50,'Accueil vinyle','Le menu tourne comme un disque : chaque sillon mène à une section.'],
-      [51,46,'Classements','Les records des joueurs connectés via Discord.'],
-      [56,59,'Dictionnaire','Les dictionnaires, définitions et statistiques de chaque langue.']
-    ],
     overview:[
       'JKPLM mélange l’esprit de JKLM.fun et de wordbomb.io. À chaque tour, une syllabe s’affiche au centre de la bombe ; le joueur tape un mot du dictionnaire qui la contient avant la fin du compte à rebours. Un mot ne sert qu’une fois par partie, le dernier survivant gagne.',
       'Le frontend est fait de pages statiques sans framework ni build, hébergées sur Vercel. Le serveur Node.js, Express et Socket.IO tourne sur Render et garde les salles en mémoire ; Supabase gère les comptes Discord, les profils et les statistiques.'
@@ -68,12 +56,6 @@ export const projects=[
     type:'Extension Chrome',hd:[localshieldHd,2400,1500],demo:true,
     lede:'Bloque publicités, traqueurs et pop-ups. Les règles sont dans l’extension, le filtrage est fait par le navigateur, aucune télémétrie.',
     role:'Conception et développement',status:'Dépôt privé',
-    pins:[
-      [72,19,'Compteur par site','Répond en une seconde à la question « suis-je protégé ici ? ».'],
-      [72,33,'Pause et liste blanche','Pause par onglet et autorisation durable par site.'],
-      [86,58,'Huit modules','Nettoyage d’URL, HTTPS, cosmétique, cookies, permissions, listes, anti-détection, scriptlets.'],
-      [28,12,'Statistiques','Tableau de bord par site, export et import de la configuration.']
-    ],
     overview:[
       'Un bloqueur moderne ne devrait pas dépendre d’un serveur. Local Shield embarque ses listes, laisse le navigateur filtrer via declarativeNetRequest, et son seul accès réseau, la mise à jour périodique des listes, est désactivable.',
       'Deux content scripts se partagent le travail : l’un dans le monde de la page pour surcharger window.open, l’autre dans le monde isolé pour parler au service worker. Une seule fonction décide des exceptions par site, si bien que le popup, le stockage et les scripts injectés voient la même vérité.'
@@ -94,12 +76,6 @@ export const projects=[
     type:'Extension Chrome',hd:[localdownloadHd,2400,1500],demo:true,
     lede:'Détecte et télécharge les médias d’une page : vidéo, audio, images, flux HLS et DASH. Tout se passe dans le navigateur.',
     role:'Conception et développement',status:'Dépôt privé',
-    pins:[
-      [44,13,'Détection par onglet','Chaque média est rangé dans la liste de son onglet.'],
-      [42,27,'Flux HLS et DASH','Manifestes lus, segments assemblés en un seul fichier.'],
-      [64,36,'Téléchargement','La source est validée puis enregistrée, avec choix de l’emplacement.'],
-      [37,61,'Écoute','Les fichiers audio se prévisualisent avant d’être téléchargés.']
-    ],
     overview:[
       'LocalDownload observe les requêtes réseau de chaque onglet et reconnaît un média par son Content-Type ou par l’extension de son URL. Le popup liste ce qui a été trouvé, classé par type, prêt à être téléchargé.',
       'Pour un fichier direct, le téléchargement passe par chrome.downloads. Pour un flux HLS ou DASH, l’extension lit le manifeste, récupère les segments un par un et les assemble, avec une barre de progression.'
@@ -118,12 +94,6 @@ export const projects=[
     type:'Lecteur de scans',hd:[localscan,720,720],
     lede:'Une bibliothèque de scans locale : reprendre la lecture où on l’a laissée, filtrer par avancement, lire chapitre par chapitre.',
     role:'Conception et développement',status:'Dépôt privé',
-    pins:[
-      [35,12,'Recherche','Retrouver une série par son titre.'],
-      [73,12,'Filtres d’avancement','En cours, pas commencé, terminé.'],
-      [33,34,'Reprendre la lecture','La dernière lecture en cours, à portée de clic.'],
-      [25,59,'Bibliothèque','Chaque série avec son nombre de chapitres et sa progression.']
-    ],
     overview:[
       'LocalScan présente une collection de scans stockée sur la machine comme une vraie bibliothèque : une série mise en avant, la lecture en cours, puis toutes les séries avec leur progression.'
     ],
