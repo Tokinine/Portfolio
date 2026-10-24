@@ -4,14 +4,14 @@ import {still} from './runtime.js'
 import tokibot from './assets/projects/tokibot.webp'
 import jkplm from './assets/projects/jkplm.webp'
 import localshield from './assets/projects/localshield.webp'
-import vdlocal from './assets/projects/vdlocal.webp'
+import localdownload from './assets/projects/localdownload.webp'
 import localscan from './assets/projects/localscan.webp'
 
 const projects=[
   {name:'TokiBot',line:'Bots temps réel pour JKLM.fun',img:tokibot},
   {name:'JKPLM',line:'Jeux de mots multijoueur',img:jkplm},
   {name:'Local Shield',line:'Bloqueur de pubs et traqueurs',img:localshield},
-  {name:'VDLocal',line:'Détecteur de médias',img:vdlocal},
+  {name:'LocalDownload',line:'Détecteur de médias',img:localdownload},
   {name:'LocalScan',line:'Lecteur de scans local',img:localscan}
 ]
 

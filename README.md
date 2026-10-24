@@ -26,7 +26,7 @@
 | Section | Description |
 |---|---|
 | **Hero** | titre animé, mains et rubans, rendu WebGL |
-| **Projets** | TokiBot, JKPLM, Local Shield, VDLocal, LocalScan : une vignette et une phrase par projet |
+| **Projets** | TokiBot, JKPLM, Local Shield, LocalDownload, LocalScan : une vignette et une phrase par projet |
 | **Stacks** | grille d'icônes (Bash, Chrome, Cloudflare, Discord, discord.js, Express, GitHub Actions, GitHub Pages…) |
 | **Contact** | « Une idée, un projet ? » |
 
@@ -79,7 +79,7 @@ Chaque push déclenche le workflow `.github/workflows/deploy.yml`.
 | **TokiBot** | bots temps réel pour JKLM.fun |
 | **JKPLM** | jeu de mots multijoueur |
 | **Local Shield** | bloqueur de publicités et de traqueurs |
-| **VDLocal** | détecteur de médias |
+| **LocalDownload** | détecteur de médias |
 | **LocalScan** | lecteur de scans local |
 
 ---
