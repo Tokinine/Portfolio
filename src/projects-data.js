@@ -33,6 +33,7 @@ export const projects=[
       ['Bot Discord','Commandes relayées vers le panel et notifications de bannissement par webhooks.'],
       ['Modération','Blacklist, motifs interdits et protection de room, couverts par des tests.']
     ],
+    stats:[['28 367','parties jouées','cumul des participations BombParty'],['901 h','de jeu','temps passé en partie par les joueurs'],['732','joueurs suivis','674 BombParty, 58 PopSauce'],['75 744','questions PopSauce','connues du bot, en trois langues']],
     flow:[['Discord','Commandes des modérateurs'],['discord-bot','Relais vers le panel'],['panel :9999','API HTTP + interface web'],['Bots BombParty et PopSauce','WebSocket vers les rooms'],['dict-server :7777','Dictionnaires et syllabes'],['JKLM.fun','Les parties en cours']],
     stack:['nodejs','javascript','discordjs','cheerio','pm2']
   },

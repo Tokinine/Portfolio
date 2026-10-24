@@ -37,7 +37,6 @@ function render(p,i){
  <figure class="ph-stage">
   <div class="ph-frame" style="--ar:${w}/${h}"><div class="in"><div class="ph-shot">
    <img src="${src}" width="${w}" height="${h}" alt="Capture de ${p.name}" fetchpriority="high" style="view-transition-name:shot-${p.slug}">
-   <div class="ph-lens" aria-hidden="true"><i style="background-image:url(${src})"></i></div>
    ${p.pins.map(([x,y],k)=>`<span class="pin" style="left:${x}%;top:${y}%;--d:${k}" aria-hidden="true">${pad(k+1)}</span>`).join('')}
    <span class="ph-tag" aria-hidden="true"></span>
   </div></div></div>
@@ -54,6 +53,7 @@ function render(p,i){
 
 <section class="pj-sec" id="etude"><div class="wrap g12">
  <h2 class="pj-h rv">Vue d’ensemble</h2>
+ ${p.stats?`<dl class="stats">${p.stats.map(([n,l,d],k)=>`<div class="rv" style="--o:${k}"><dt>${l}</dt><dd><b>${n}</b>${d}</dd></div>`).join('')}</dl>`:''}
  <div class="ov">${p.overview.map((t,k)=>`<p class="rv${k?'':' ov-lead'}" style="--o:${k+1}">${t}</p>`).join('')}</div>
 </div></section>
 
@@ -73,7 +73,7 @@ ${stacks.length?`<section class="pj-sec"><div class="wrap g12">
 </div></section>`:''}
 
 <section class="pj-sec nx-sec"><div class="wrap">
- <a class="nx rv" href="${projectUrl(next)}"><span class="nx-name">${next.name}</span><span class="nx-line">${next.line}</span><span class="nx-shot"><img src="${next.img}" alt="" loading="lazy" decoding="async"></span></a>
+ <a class="nx rv" href="${projectUrl(next)}"><span class="nx-name">${next.name}</span><span class="nx-line">${next.line}</span><span class="btn chrome nx-go"><span>Voir le projet suivant →</span></span><span class="nx-shot"><img src="${next.img}" alt="" loading="lazy" decoding="async"></span></a>
 </div></section>`
 
   const frame=document.querySelector('.ph-frame')
@@ -84,28 +84,21 @@ ${stacks.length?`<section class="pj-sec"><div class="wrap g12">
 }
 
 function initLens(p){
-  const shot=document.querySelector('.ph-shot'),lens=shot.querySelector('.ph-lens'),glass=lens.firstElementChild,tag=shot.querySelector('.ph-tag')
+  const shot=document.querySelector('.ph-shot'),tag=shot.querySelector('.ph-tag')
   const pins=[...shot.querySelectorAll('.pin')],buttons=[...document.querySelectorAll('.ph-legend button')]
   const detail=document.getElementById('detail'),stage=document.querySelector('.ph-stage'),frame=stage.querySelector('.ph-frame')
-  // ne jamais agrandir au-delà des pixels natifs de la capture
-  const Z=Math.max(1.4,Math.min(2.4,p.hd[1]/shot.offsetWidth))
   let cur={x:p.pins[0][0]/100,y:p.pins[0][1]/100},to={...cur},raf=0,active=-1,hover=false,visible=true,timer=0
 
-  chromeRing(lens,7,3,10,{capsule:true,lite:true})
 
   const draw=()=>{
-    const W=shot.offsetWidth,H=shot.offsetHeight,D=lens.offsetWidth
-    // la loupe reste dans la capture (le cadre .in coupe ce qui dépasse) mais grossit toujours le point visé
+    const W=shot.offsetWidth,H=shot.offsetHeight,D=40
     const lx=Math.min(Math.max(cur.x*W,D/2),W-D/2),ly=Math.min(Math.max(cur.y*H,D/2),H-D/2)
-    lens.style.translate=`${lx-D/2}px ${ly-D/2}px`
     // étiquette sous la loupe, sinon au-dessus, sinon à côté : jamais hors capture ni sur un autre repère
     const T=tag.offsetWidth,th=tag.offsetHeight,tx=Math.min(Math.max(lx-T/2,8),W-T-8)
     const below=ly+D/2,up=ly-D/2-th-24,covers=(x,y)=>p.pins.some(([px,py],k)=>k!==active&&px/100*W>x-20&&px/100*W<x+T+20&&py/100*H>y-8&&py/100*H<y+th+32)
     const spots=[[tx,below],[tx,up],[Math.min(lx+D/2+12,W-T-8),ly-th/2],[Math.max(lx-D/2-T-12,8),ly-th/2]].filter(([,y])=>y>=8&&y+th+20<=H)
     const [sx,sy]=spots.find(([x,y])=>!covers(x,y))||spots[0]||[tx,Math.min(below,H-th-20)]
     tag.style.translate=`${sx}px ${sy}px`
-    glass.style.backgroundSize=`${W*Z}px ${H*Z}px`
-    glass.style.backgroundPosition=`${D/2-cur.x*W*Z}px ${D/2-cur.y*H*Z}px`
   }
   const tick=()=>{
     raf=0
