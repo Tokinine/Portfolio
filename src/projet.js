@@ -5,6 +5,7 @@ import {url,stackInfo} from './stacks.js'
 import {chromeRing} from './chrome.js'
 import {initNav} from './nav.js'
 import {initBackground} from './background.js'
+import {initRibbons} from './ribbons.js'
 import {mercury} from './mercury.js'
 import {reveal} from './reveal.js'
 import {still} from './runtime.js'
@@ -134,11 +135,11 @@ function initLens(p){
     tag.classList.toggle('off',bd>=.012)
     if(bd<.012)select(best)
   })
-  stage.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'){hover=true;frame.classList.add('live');clearTimeout(timer)}})
-  stage.addEventListener('pointerleave',()=>{hover=false;tag.classList.remove('off');frame.classList.remove('live');frame.style.removeProperty('--ry');frame.style.removeProperty('--rx');const k=active;active=-1;select(k);tour()})
-  stage.addEventListener('pointermove',e=>{
+  shot.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'){hover=true;frame.classList.add('live');clearTimeout(timer)}})
+  shot.addEventListener('pointerleave',()=>{hover=false;tag.classList.remove('off');frame.classList.remove('live');frame.style.removeProperty('--ry');frame.style.removeProperty('--rx');const k=active;active=-1;select(k);tour()})
+  shot.addEventListener('pointermove',e=>{
     if(e.pointerType!=='mouse'||still)return
-    const r=stage.getBoundingClientRect()
+    const r=shot.getBoundingClientRect()
     frame.style.setProperty('--ry',((e.clientX-r.left)/r.width-.5)*6+'deg')
     frame.style.setProperty('--rx',(.5-(e.clientY-r.top)/r.height)*4+'deg')
   })
@@ -154,6 +155,7 @@ function initLens(p){
 
 initNav()
 initBackground()
+initRibbons()
 document.querySelectorAll('.rv').forEach(el=>reveal(el))
 document.querySelectorAll('.band').forEach(el=>mercury(el))
 const idle=new IntersectionObserver(entries=>entries.forEach(e=>e.target.classList.toggle('idle',!e.isIntersecting)))
