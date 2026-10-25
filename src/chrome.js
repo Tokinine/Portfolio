@@ -1,4 +1,4 @@
-import {quad,HEAD,STUDIO} from './gl.js'
+import {quad,whenNear,HEAD,STUDIO} from './gl.js'
 import {pointer,still,ui} from './runtime.js'
 
 const AA2='(shade(p+vec2(.25,.25))+shade(p+vec2(-.25,-.25)))*.5'
@@ -56,11 +56,13 @@ const io=new IntersectionObserver(entries=>entries.forEach(e=>{
 }))
 const ro=new ResizeObserver(entries=>entries.forEach(e=>rings.get(e.target).resize()))
 
-export function chromeRing(host,index=0,thickness=4.5,pad=16,opts={}){
+export const chromeRing=(host,...args)=>whenNear(host,()=>init(host,...args))
+
+async function init(host,index=0,thickness=4.5,pad=16,opts={}){
   const canvas=document.createElement('canvas')
   canvas.style.cssText=`position:absolute;inset:-${pad/16}rem;width:calc(100% + ${pad/8}rem);height:calc(100% + ${pad/8}rem);pointer-events:none`
   host.appendChild(canvas)
-  const g=quad(canvas,ringShader(opts.aa4),UNIFORMS)
+  const g=await quad(canvas,ringShader(opts.aa4),UNIFORMS)
   if(!g){canvas.remove();return}
   const {gl,U}=g
   let q=1

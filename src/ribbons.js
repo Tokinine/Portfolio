@@ -52,7 +52,7 @@ export function initRibbons(){
   dot.style.cssText='position:absolute;left:-.1875rem;top:-.1875rem;width:.375rem;height:.375rem;border-radius:50%;background:#fff;mix-blend-mode:difference;will-change:transform;transform:translate3d(-50px,-50px,0)'
   box.appendChild(dot)
 
-  const gl=canvas.getContext('webgl2',{alpha:true,premultipliedAlpha:true,antialias:false})
+  const gl=canvas.getContext('webgl2',{alpha:true,premultipliedAlpha:true,antialias:false,failIfMajorPerformanceCaveat:true})
   if(!gl)return
   const vs=compile(gl,gl.VERTEX_SHADER,VERTEX),fs=compile(gl,gl.FRAGMENT_SHADER,FRAGMENT),program=gl.createProgram()
   if(!vs||!fs)return

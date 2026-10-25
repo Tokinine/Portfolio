@@ -1,4 +1,4 @@
-import {quad,HEAD,STUDIO} from './gl.js'
+import {quad,whenNear,HEAD,STUDIO} from './gl.js'
 import {pointer,still,ui} from './runtime.js'
 
 export const MERCURY_FS=HEAD+`uniform vec2 R,M;uniform float T,Q,P;
@@ -28,11 +28,13 @@ col=mix(col,col*vec3(.88,.96,1.12),.55*fr+.15);
 return vec4(col*al,al);}
 void main(){gl_FragColor=shade(gl_FragCoord.xy);}`
 
-export function mercury(host){
+export const mercury=host=>whenNear(host,()=>init(host))
+
+async function init(host){
   const canvas=document.createElement('canvas')
   canvas.style.cssText='position:absolute;inset:0;width:100%;height:100%;pointer-events:none'
   host.appendChild(canvas)
-  const g=quad(canvas,MERCURY_FS,['R','M','T','Q','P'])
+  const g=await quad(canvas,MERCURY_FS,['R','M','T','Q','P'])
   if(!g){canvas.remove();return}
   const {gl,U}=g
   let q=2,sx=0,sy=0,phase=0,lastY=scrollY,visible=false,raf=0
