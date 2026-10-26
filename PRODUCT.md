@@ -25,9 +25,9 @@ Consulté sur téléphone, tablette, ordinateur et grand écran / TV. Déployé 
 ## Capabilities and Constraints
 
 - Vite seul, JavaScript vanilla, aucun framework. Rendu WebGL maison (chrome liquide, mercure).
-- Projets présentés : TokiBot, JKPLM, Local Shield, LocalDownload, LocalScan. La plupart des dépôts sont privés : pas de lien de code public sauf indication.
-- Liens publics connus : JKPLM https://jkplm.vercel.app.
-- Contenu des pages projet tiré des README des dépôts locaux (`../TokiBot`, `../JKPLM`, `../LocalShields`, `../LocalDownload`). LocalScan : source à confirmer.
+- Projets présentés : TokiBot, SyllaBomb, Local Shield, MediaSniffer, LocalScan. La plupart des dépôts sont privés : pas de lien de code public sauf indication.
+- Liens publics connus : SyllaBomb https://jkplm.vercel.app.
+- Contenu des pages projet tiré des README des dépôts locaux (`../TokiBot`, `../SyllaBomb`, `../LocalShields`, `../MediaSniffer`). LocalScan : source à confirmer.
 
 ## Brand Commitments
 

@@ -1,12 +1,12 @@
 import tokibot from './assets/projects/tokibot.webp'
-import jkplm from './assets/projects/jkplm.webp'
+import syllabomb from './assets/projects/syllabomb.webp'
 import localshield from './assets/projects/localshield.webp'
-import localdownload from './assets/projects/localdownload.webp'
+import mediasniffer from './assets/projects/mediasniffer.webp'
 import localscan from './assets/projects/localscan.webp'
 import tokibotHd from './assets/projects/hd/tokibot.webp'
-import jkplmHd from './assets/projects/hd/jkplm.webp'
+import syllabombHd from './assets/projects/hd/syllabomb.webp'
 import localshieldHd from './assets/projects/hd/localshield.webp'
-import localdownloadHd from './assets/projects/hd/localdownload.webp'
+import mediasnifferHd from './assets/projects/hd/mediasniffer.webp'
 
 // demo : capture faite avec des données de démonstration ; hd : capture plein format [src, largeur, hauteur]
 export const projects=[
@@ -32,12 +32,12 @@ export const projects=[
     stack:['nodejs','javascript','discordjs','cheerio','pm2']
   },
   {
-    slug:'jkplm',name:'JKPLM',line:'Jeux de mots multijoueur',img:jkplm,
-    type:'Jeu multijoueur temps réel',hd:[jkplmHd,2400,1500],
+    slug:'syllabomb',name:'SyllaBomb',line:'Jeux de mots multijoueur',img:syllabomb,
+    type:'Jeu multijoueur temps réel',hd:[syllabombHd,2400,1500],
     lede:'Une syllabe est imposée : trouve un mot valide avant la fin du timer, ou perds une vie. Jusqu’à huit joueurs, en quatre langues.',
     role:'Conception et développement',status:'En ligne',link:['jkplm.vercel.app','https://jkplm.vercel.app'],
     overview:[
-      'JKPLM mélange l’esprit de JKLM.fun et de wordbomb.io. À chaque tour, une syllabe s’affiche au centre de la bombe ; le joueur tape un mot du dictionnaire qui la contient avant la fin du compte à rebours. Un mot ne sert qu’une fois par partie, le dernier survivant gagne.',
+      'SyllaBomb mélange l’esprit de JKLM.fun et de wordbomb.io. À chaque tour, une syllabe s’affiche au centre de la bombe ; le joueur tape un mot du dictionnaire qui la contient avant la fin du compte à rebours. Un mot ne sert qu’une fois par partie, le dernier survivant gagne.',
       'Le frontend est fait de pages statiques sans framework ni build, hébergées sur Vercel. Le serveur Node.js, Express et Socket.IO tourne sur Render et garde les salles en mémoire ; Supabase gère les comptes Discord, les profils et les statistiques.'
     ],
     features:[
@@ -72,12 +72,12 @@ export const projects=[
     stack:['chrome','javascript','python']
   },
   {
-    slug:'localdownload',name:'LocalDownload',line:'Détecteur de médias',img:localdownload,
-    type:'Extension Chrome',hd:[localdownloadHd,2400,1500],demo:true,
+    slug:'mediasniffer',name:'MediaSniffer',line:'Détecteur de médias',img:mediasniffer,
+    type:'Extension Chrome',hd:[mediasnifferHd,2400,1500],demo:true,
     lede:'Détecte et télécharge les médias d’une page : vidéo, audio, images, flux HLS et DASH. Tout se passe dans le navigateur.',
     role:'Conception et développement',status:'Dépôt privé',
     overview:[
-      'LocalDownload observe les requêtes réseau de chaque onglet et reconnaît un média par son Content-Type ou par l’extension de son URL. Le popup liste ce qui a été trouvé, classé par type, prêt à être téléchargé.',
+      'MediaSniffer observe les requêtes réseau de chaque onglet et reconnaît un média par son Content-Type ou par l’extension de son URL. Le popup liste ce qui a été trouvé, classé par type, prêt à être téléchargé.',
       'Pour un fichier direct, le téléchargement passe par chrome.downloads. Pour un flux HLS ou DASH, l’extension lit le manifeste, récupère les segments un par un et les assemble, avec une barre de progression.'
     ],
     features:[

@@ -26,7 +26,7 @@
 | Section | Description |
 |---|---|
 | **Hero** | titre animé, mains et rubans, rendu WebGL |
-| **Projets** | TokiBot, JKPLM, Local Shield, LocalDownload, LocalScan : une vignette et une phrase par projet |
+| **Projets** | TokiBot, SyllaBomb, Local Shield, MediaSniffer, LocalScan : une vignette et une phrase par projet |
 | **Stacks** | grille d'icônes (Bash, Chrome, Cloudflare, Discord, discord.js, Express, GitHub Actions, GitHub Pages…) |
 | **Contact** | « Une idée, un projet ? » |
 
@@ -77,9 +77,9 @@ Chaque push déclenche le workflow `.github/workflows/deploy.yml`.
 | Projet | Description |
 |---|---|
 | **TokiBot** | bots temps réel pour JKLM.fun |
-| **JKPLM** | jeu de mots multijoueur |
+| **SyllaBomb** | jeu de mots multijoueur |
 | **Local Shield** | bloqueur de publicités et de traqueurs |
-| **LocalDownload** | détecteur de médias |
+| **MediaSniffer** | détecteur de médias |
 | **LocalScan** | lecteur de scans local |
 
 ---
